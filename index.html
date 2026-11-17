@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브라이트샤인 | Brightshine</title>
+<meta name="description" content="㈜브라이트샤인 — Marketing · Software · IP Commercialization · Medical Business. 아이디어를 사업으로 빛나게.">
+<meta property="og:title" content="Brightshine — Ideas, made to shine.">
+<meta property="og:description" content="마케팅 · 프로그램 개발 · 특허 사업화 · 메디컬 비즈니스">
+<meta property="og:url" content="https://brightshine.kr">
+<meta name="theme-color" content="#09090b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='5' fill='%23ffc21a'/%3E%3Cg stroke='%23ffc21a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#09090b; --bg-2:#111114; --card:#141418; --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+    --fg:#f4f4f5; --fg-2:#a1a1aa; --fg-3:#63636e;
+    --sun:#ffc21a; --sun-2:#ff8a00; --ice:#8ab4ff;
+    --sans:'Pretendard Variable',Pretendard,system-ui,sans-serif;
+    --grot:'Space Grotesk','Pretendard Variable',sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:96px}
+  body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.65;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--sun);color:#000}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+  .hl{color:var(--sun)}
+
+  /* grain + grid backdrop */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* NAV */
+  header{position:fixed;top:16px;left:0;right:0;z-index:60}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 10px 0 22px;border:1px solid var(--line);border-radius:999px;background:rgba(14,14,17,.7);backdrop-filter:blur(16px)}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--grot);font-weight:700;font-size:19px;letter-spacing:-.02em}
+  .logo svg{width:24px;height:24px}
+  .nav ul{display:flex;gap:4px;list-style:none}
+  .nav ul a{display:block;padding:8px 16px;border-radius:999px;font-size:14px;color:var(--fg-2);transition:.15s}
+  .nav ul a:hover{color:var(--fg);background:rgba(255,255,255,.06)}
+  .btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 22px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .15s,background .15s,box-shadow .2s;white-space:nowrap}
+  .btn-sun{background:var(--sun);color:#0a0a0a}
+  .btn-sun:hover{transform:translateY(-1px);box-shadow:0 0 0 6px rgba(255,194,26,.15)}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--fg)}
+  .btn-ghost:hover{background:rgba(255,255,255,.06)}
+  .arrow{transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .menu-btn{display:none;background:none;border:0;color:var(--fg);font-size:22px;cursor:pointer;width:44px;height:44px}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 75%)}
+  .sun{position:absolute;width:720px;height:720px;right:-180px;top:-160px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,rgba(255,194,26,.55),rgba(255,138,0,.22) 35%,transparent 65%);filter:blur(30px);animation:pulse 8s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.08);opacity:.85}}
+  .hero .wrap{position:relative;width:100%}
+  .badge{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 8px;border:1px solid var(--line-2);border-radius:999px;font-size:13px;color:var(--fg-2);background:rgba(255,255,255,.03)}
+  .badge b{font-family:var(--mono);font-size:11px;font-weight:500;background:var(--sun);color:#000;padding:3px 8px;border-radius:999px}
+  .hero h1{margin-top:28px;font-family:var(--grot);font-weight:700;font-size:clamp(52px,10vw,148px);line-height:.92;letter-spacing:-.05em}
+  .hero h1 .out{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.55)}
+  .hero h1 .grad{background:linear-gradient(90deg,var(--sun),var(--sun-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{margin-top:36px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+  .hero-sub p{font-size:clamp(17px,1.7vw,20px);color:var(--fg-2);max-width:560px}
+  .hero-sub p strong{color:var(--fg);font-weight:600}
+  .cta{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* MARQUEE */
+  .marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--bg-2)}
+  .track{display:flex;gap:56px;width:max-content;animation:scroll 38s linear infinite}
+  .track span{font-family:var(--grot);font-size:26px;font-weight:600;letter-spacing:-.02em;color:var(--fg-3);display:flex;align-items:center;gap:56px;white-space:nowrap}
+  .track span::after{content:"✦";color:var(--sun);font-size:16px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* SECTION */
+  section{padding:120px 0}
+  .head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:64px}
+  .head h2{font-size:clamp(32px,4.4vw,56px);line-height:1.15;font-weight:700;letter-spacing:-.04em}
+  .head h2 em{font-style:normal;color:var(--fg-3)}
+  .head p{margin-top:18px;color:var(--fg-2);font-size:17px;max-width:580px}
+
+  /* BENTO */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:34px;overflow:hidden;transition:border-color .25s,transform .25s}
+  .tile:hover{border-color:var(--line-2);transform:translateY(-3px)}
+  .tile::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(255,194,26,.10),transparent 45%);opacity:0;transition:opacity .3s}
+  .tile:hover::after{opacity:1}
+  .t0{grid-column:span 6}.t1,.t3,.t4{grid-column:span 2}
+  .dev-head{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:end}
+  .dev-grid{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .sub{border:1px solid var(--line);border-radius:18px;padding:22px;background:rgba(255,255,255,.02);transition:border-color .2s}
+  .sub:hover{border-color:rgba(255,194,26,.45)}
+  .sub .mono{color:var(--sun)}
+  .sub h4{font-size:18px;font-weight:700;letter-spacing:-.02em;margin:10px 0 6px}
+  .sub p{margin-top:0;font-size:14.5px}
+  .tile-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:56px}
+  .ico{width:48px;height:48px;border-radius:14px;border:1px solid var(--line-2);display:grid;place-items:center;background:rgba(255,255,255,.03)}
+  .ico svg{width:22px;height:22px;stroke:var(--sun);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tile h3{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.25}
+  .tile .en{font-family:var(--grot);font-size:15px;color:var(--fg-3);font-weight:500;margin-top:4px}
+  .tile p{margin-top:16px;color:var(--fg-2);font-size:15.5px;max-width:520px}
+  .tags{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+  .tags span{font-size:13px;color:var(--fg-2);padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02)}
+    background:linear-gradient(90deg,rgba(255,94,94,.15),rgba(255,194,26,.15),rgba(80,200,140,.15),rgba(110,140,255,.15),rgba(190,110,255,.15));border:1px solid var(--line-2)}
+
+  /* EXPERTISE */
+  #expertise{background:var(--bg-2);border-block:1px solid var(--line)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+  .stat{padding:40px 32px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0}
+  .stat .n{font-family:var(--grot);font-size:clamp(44px,5vw,68px);font-weight:700;letter-spacing:-.05em;line-height:1}
+  .stat .n sup{font-size:.45em;color:var(--sun);vertical-align:top;margin-left:2px}
+  .stat .l{margin-top:14px;color:var(--fg-2);font-size:15px}
+
+  /* PROCESS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line-2)}
+  .step{padding:32px 28px 0 0;position:relative}
+  .step::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--sun);box-shadow:0 0 16px var(--sun)}
+  .step .mono{display:block;margin-bottom:18px}
+  .step h4{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+  .step p{color:var(--fg-2);font-size:15px}
+
+  /* CONTACT */
+  .cta-box{position:relative;border-radius:32px;overflow:hidden;padding:88px 64px;border:1px solid var(--line-2);
+    background:radial-gradient(800px 400px at 85% 0%,rgba(255,194,26,.22),transparent 60%),var(--card)}
+  .cta-box h2{font-family:var(--grot);font-size:clamp(40px,6.5vw,92px);font-weight:700;letter-spacing:-.05em;line-height:.98}
+  .cta-box h2 .grad{background:linear-gradient(90deg,var(--sun),var(--sun-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cta-box > p{margin-top:22px;color:var(--fg-2);font-size:18px}
+  .contact-grid{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ci{display:flex;flex-direction:column;gap:10px;padding:26px 28px;border:1px solid var(--line);border-radius:20px;background:rgba(0,0,0,.25)}
+  .ci b{font-size:19px;font-weight:600;letter-spacing:-.01em}
+  a.ci{transition:border-color .2s}
+  a.ci:hover{border-color:var(--sun)}
+  a.ci:hover b{color:var(--sun)}
+
+  footer{padding:56px 0 64px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--line);font-size:13.5px;color:var(--fg-3)}
+  .foot .logo{color:var(--fg);margin-bottom:14px}
+  .big-word{font-family:var(--grot);font-weight:700;letter-spacing:-.06em;font-size:clamp(56px,14.5vw,200px);line-height:1;text-align:center;margin-top:48px;white-space:nowrap;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
+
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.on{opacity:1;transform:none}
+
+  @media (max-width:960px){
+    .nav ul{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;padding:10px;border:1px solid var(--line-2);border-radius:20px;background:#0e0e11;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+    .nav ul.open{display:flex}
+    .nav ul a{padding:14px 16px}
+    .nav > .btn{display:none}
+    .menu-btn{display:block}
+    .hero-sub,.head,.contact-grid{grid-template-columns:1fr}
+    .head{gap:12px}
+    .t0,.t1,.t3,.t4{grid-column:span 6}
+    .dev-head{grid-template-columns:1fr;gap:0}
+    .dev-grid{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .stat:nth-child(2){border-right:0}
+    .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    .steps{grid-template-columns:1fr 1fr;row-gap:48px}
+    .cta-box{padding:56px 28px}
+    section{padding:88px 0}
+    .hero{min-height:auto;padding:140px 0 80px}
+  }
+  @media (max-width:560px){
+    .steps{border-top:0;border-left:1px solid var(--line-2);padding-left:24px;row-gap:36px}
+    .step{padding:0}
+    .step::before{top:4px;left:-29px}
+    .cta-box h2{font-size:44px}
+    .ci b{font-size:17px}
+    .dev-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .tile{padding:28px}
+  }
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.track,.sun{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav class="nav">
+      <a href="#" class="logo" aria-label="Brightshine 홈">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#ffc21a"/><g stroke="#ffc21a" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></g></svg>
+        brightshine
+      </a>
+      <ul id="menu">
+        <li><a href="#business">Business</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-sun">프로젝트 문의 <span class="arrow">→</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="메뉴" aria-expanded="false" aria-controls="menu">☰</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="grid-bg"></div>
+    <div class="sun"></div>
+    <div class="wrap">
+      <span class="badge"><b>AI-NATIVE</b> Creative &amp; Tech Studio</span>
+      <h1>Ideas,<br><span class="out">made to</span> <span class="grad">shine.</span></h1>
+      <div class="hero-sub">
+        <p>브라이트샤인은 <strong>마케팅·소프트웨어·지식재산·메디컬</strong>을 하나의 팀에서 다룹니다. 좋은 아이디어가 시장에서 통하는 사업이 될 때까지, 기획부터 실행까지 함께합니다.</p>
+        <div class="cta">
+          <a href="#business" class="btn btn-ghost">사업분야</a>
+          <a href="#contact" class="btn btn-sun">함께 시작하기 <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span>
+      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span>
+    </div>
+  </div>
+
+  <!-- BUSINESS -->
+  <section id="business">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">( 01 ) — What we do</span>
+        <div>
+          <h2>네 개의 사업,<br><em>하나의 성장 흐름.</em></h2>
+          <p>만들고, 알리고, 사업화하고, 공급합니다. 각 사업이 맞물려 고객의 아이디어를 실제 매출로 연결합니다.</p>
+        </div>
+      </div>
+
+      <div class="bento">
+        <article class="tile t0 rv">
+          <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div><span class="mono">01 / Software</span></div>
+          <div class="dev-head">
+            <div><h3>프로그램 개발</h3><div class="en">Software · Game · EdTech</div></div>
+            <p style="margin-top:0">업무 현장에서 바로 쓰는 관리 프로그램부터 게임, 교육용 콘텐츠까지. AI 네이티브 개발 방식으로 기획에서 배포·운영까지 빠르게 만듭니다.</p>
+          </div>
+          <div class="dev-grid">
+            <div class="sub"><span class="mono">A</span><h4>병·의원 인사관리</h4><p>근무일정, 근태, 급여 업무를 한곳에서 관리하는 병·의원 맞춤형 프로그램.</p></div>
+            <div class="sub"><span class="mono">B</span><h4>게임 개발</h4><p>웹·모바일 환경의 캐주얼 게임과 인터랙티브 콘텐츠 개발.</p></div>
+            <div class="sub"><span class="mono">C</span><h4>교육용 프로그램</h4><p>놀이처럼 배우는 학습 앱과 교육기관용 콘텐츠·도구 개발.</p></div>
+            <div class="sub"><span class="mono">D</span><h4>업무용 웹앱·홈페이지</h4><p>업무 자동화 도구, 사내 관리 시스템, 홈페이지·랜딩페이지 제작.</p></div>
+          </div>
+        </article>
+
+        <article class="tile t1 rv">
+          <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div><span class="mono">02 / Marketing</span></div>
+          <h3>마케팅·브랜딩</h3>
+          <div class="en">Brand Identity &amp; Growth Marketing</div>
+          <p>브랜드 아이덴티티 설계부터 광고 크리에이티브, 온라인 마케팅 운영까지. 자체 개발한 AI 로고 제작 기법으로 빠르고 완성도 높은 브랜드를 만듭니다.</p>
+          <div class="tags"><span>AI 로고</span><span>BI·CI</span><span>광고 도안</span><span>퍼포먼스 마케팅</span></div>
+        </article>
+
+        <article class="tile t4 rv">
+          <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></div><span class="mono">03 / IP</span></div>
+          <h3>특허 사업화</h3>
+          <div class="en">IP Commercialization</div>
+          <p>대학·연구소·기업에 잠들어 있는 특허와 기술을 시장으로 꺼냅니다. 기술의 가치를 읽고, 제품·서비스·라이선스로 연결하는 사업화 전략을 설계합니다.</p>
+          <div class="tags"><span>사업화 전략</span><span>기술 이전·라이선싱 연계</span><span>특허 기반 제품 기획</span></div>
+        </article>
+
+        <article class="tile t3 rv">
+          <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.3-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.3 6c-2.3 4.6-9.3 9-9.3 9z"/></svg></div><span class="mono">04 / Medical</span></div>
+          <h3>메디컬 비즈니스</h3>
+          <div class="en">Medical Business</div>
+          <p>병·의원을 위한 메디컬 비즈니스 파트너. 의료기기 공급부터 장비 도입·교체까지 합리적인 선택을 돕습니다.</p>
+          <div class="tags"><span>의료기기 도소매</span><span>중고 장비 매입·판매</span><span>도입 상담</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section id="expertise">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">( 02 ) — Why us</span>
+        <div>
+          <h2>스타트업의 속도,<br><em>전문가의 깊이.</em></h2>
+          <p>기술을 이해하는 사람이 브랜드를 만들고, 지식재산을 다뤄 본 사람이 사업화를 설계합니다.</p>
+        </div>
+      </div>
+
+      <div class="stats rv">
+        <div class="stat"><div class="n">IP<sup>◆</sup></div><div class="l">특허·지식재산 관점의 사업 설계</div></div>
+        <div class="stat"><div class="n">4</div><div class="l">개 사업분야의 유기적 연결</div></div>
+        <div class="stat"><div class="n">AI<sup>✦</sup></div><div class="l">AI 네이티브 디자인·개발 프로세스</div></div>
+        <div class="stat"><div class="n">E2E</div><div class="l">기획부터 개발·운영까지 원스톱</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="mono">( 03 ) — Process</span>
+        <div><h2>작게 시작해서,<br><em>빠르게 키웁니다.</em></h2></div>
+      </div>
+      <div class="steps rv">
+        <div class="step"><span class="mono">Step 01</span><h4>Discover</h4><p>현재 상황과 목표를 듣고, 가장 먼저 해야 할 일을 정리합니다.</p></div>
+        <div class="step"><span class="mono">Step 02</span><h4>Design</h4><p>범위·일정·비용이 명확한 실행안을 제안합니다.</p></div>
+        <div class="step"><span class="mono">Step 03</span><h4>Build</h4><p>브랜드, 소프트웨어, 사업화 패키지 등 실제 결과물을 만듭니다.</p></div>
+        <div class="step"><span class="mono">Step 04</span><h4>Grow</h4><p>출시 이후에도 데이터를 보며 개선과 확장을 이어갑니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding-top:40px;padding-bottom:0">
+    <div class="wrap">
+      <div class="cta-box rv">
+        <span class="mono">( 04 ) — Contact</span>
+        <h2 style="margin-top:22px">Let’s make it<br><span class="grad">shine.</span></h2>
+        <p>마케팅, 개발, 특허 사업화, 메디컬 — 어떤 아이디어든 편하게 이야기해 주세요.</p>
+        <div class="contact-grid">
+          <a class="ci" href="mailto:support@brightshine.kr"><span class="mono">Email</span><b style="word-break:break-all">support@brightshine.kr&nbsp;↗</b></a>
+          <div class="ci"><span class="mono">Office</span><b>서울특별시 강남구 선릉로 704, 청담빌딩 10층 432호 (청담동)</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="logo"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><circle cx="12" cy="12" r="5" fill="#ffc21a"/><g stroke="#ffc21a" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></g></svg>brightshine</div>
+        ㈜브라이트샤인 · 대표이사 서호준<br>
+        서울특별시 강남구 선릉로 704, 청담빌딩 10층 432호 (청담동) · support@brightshine.kr
+        <!-- 추후 추가: <br>사업자등록번호 000-00-00000 · 통신판매업신고 제0000-서울강남-0000호 -->
+      </div>
+      <div>© 2026 Brightshine Co., Ltd.</div>
+    </div>
+    <div class="big-word" aria-hidden="true">brightshine</div>
+  </div>
+</footer>
+
+<script>
+  const menu=document.getElementById('menu'),mb=document.getElementById('menuBtn');
+  const setMenu=o=>{menu.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.textContent=o?'✕':'☰'};
+  mb.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.1});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
+  document.querySelectorAll('.tile').forEach(t=>t.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect();t.style.setProperty('--mx',(e.clientX-r.left)+'px');t.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+</script>
+</body>
+</html>
