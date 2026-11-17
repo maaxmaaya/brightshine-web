@@ -152,6 +152,11 @@
   .big-word{font-family:var(--grot);font-weight:700;letter-spacing:-.06em;font-size:clamp(56px,14.5vw,200px);line-height:1;text-align:center;margin-top:48px;white-space:nowrap;overflow:hidden;
     background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
 
+  /* cursor glow (whole page) */
+  .cursor-glow{position:fixed;left:0;top:0;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;pointer-events:none;z-index:55;
+    background:radial-gradient(circle,rgba(255,194,26,.18) 0%,rgba(255,160,20,.08) 30%,transparent 65%);mix-blend-mode:screen;opacity:0;transition:opacity .4s;will-change:transform}
+  .cursor-glow.on{opacity:1}
+  @media (hover:none),(pointer:coarse){.cursor-glow{display:none}}
   /* slideshow-style scrolling (large screens) */
   .dots{display:none}
   @media (min-width:961px) and (min-height:640px){
@@ -250,6 +255,7 @@
   </div>
 </header>
 
+<div class="cursor-glow" aria-hidden="true"></div>
 <nav class="dots" aria-label="섹션 이동">
   <a href="#home" class="on"><span>HOME</span></a>
   <a href="#business"><span>BUSINESS</span></a>
@@ -299,12 +305,12 @@
           <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div><span class="mono">01 / Software</span></div>
           <div class="dev-head">
             <div><h3>프로그램 개발</h3><div class="en">Software · Private AI · Game · EdTech</div></div>
-            <p style="margin-top:0">업무 현장에서 바로 쓰는 관리 프로그램부터 Private AI, 게임·교육 콘텐츠까지. AI 네이티브 개발 방식으로 기획에서 배포·운영까지 빠르게 만듭니다.</p>
+            <p style="margin-top:0">AI 네이티브 개발 방식을 활용하여 기획부터 배포·운영까지 빠르게 만듭니다.</p>
           </div>
           <div class="dev-grid">
-            <div class="sub"><span class="mono">A</span><h4>병·의원 인사관리 <small>HR 근무일정표</small></h4><p>팀별 근무표, 연차·대휴 관리, 근태 엑셀 출력을 한곳에서. 담당자는 편집하고 직원은 확인만 하는 역할별 권한을 지원합니다.</p><div class="links"><a href="https://hr.brightshine.kr" target="_blank" rel="noopener">hr.brightshine.kr ↗</a><a href="https://hr.brightshine.kr/?demo&amp;tour=1" target="_blank" rel="noopener">데모 체험 ↗</a></div></div>
+            <div class="sub"><span class="mono">A</span><h4>병·의원 인사관리</h4><p>팀별 근무표, 연차·대휴 관리, 근태 엑셀 출력을 한곳에서. 담당자는 편집하고 직원은 확인만 하는 역할별 권한을 지원합니다.</p><div class="links"><a href="https://hr.brightshine.kr" target="_blank" rel="noopener">hr.brightshine.kr ↗</a></div></div>
             <div class="sub"><span class="mono">B</span><h4>게임·교육용 프로그램</h4><p>웹·모바일 캐주얼 게임과 놀이처럼 배우는 학습 앱, 교육기관용 콘텐츠·도구를 개발합니다.</p><div class="links"><a href="https://bb.brightshine.kr" target="_blank" rel="noopener">bb.brightshine.kr ↗</a></div></div>
-            <div class="sub"><span class="mono">C</span><h4>Private AI 서비스 <small>Garigo</small></h4><p>문서 속 개인정보를 자동으로 찾아 가린 뒤 AI에 전달합니다. 법률문서처럼 보안이 중요한 업무에도 AI를 안심하고 쓸 수 있습니다.</p><div class="links"><a href="https://garigo.kr" target="_blank" rel="noopener">garigo.kr ↗</a></div></div>
+            <div class="sub"><span class="mono">C</span><h4>Private AI 서비스</h4><p>문서 속 개인정보를 자동으로 찾아 가린 뒤 AI에 전달합니다. 법률문서처럼 보안이 중요한 업무에도 AI를 안심하고 쓸 수 있습니다.</p><div class="links"><a href="https://garigo.kr" target="_blank" rel="noopener">garigo.kr ↗</a></div></div>
             <div class="sub"><span class="mono">D</span><h4>업무용 웹앱·홈페이지</h4><p>업무 자동화 도구, 사내 관리 시스템, 홈페이지 제작. 브랜드 로고 자동 제작 프로그램 Rainbow BrandLab도 개발했습니다.</p></div>
           </div>
         </article>
@@ -409,56 +415,95 @@
   const setMenu=o=>{menu.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.textContent=o?'✕':'☰'};
   mb.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  /* ── cursor glow ── */
+  (()=>{const g=document.querySelector('.cursor-glow'); if(!g||matchMedia('(hover:none)').matches) return;
+    let x=innerWidth/2,y=innerHeight/2,cx=x,cy=y,raf=0;
+    const loop=()=>{cx+=(x-cx)*.2;cy+=(y-cy)*.2;g.style.transform=`translate3d(${cx}px,${cy}px,0)`;
+      raf=(Math.abs(x-cx)>.3||Math.abs(y-cy)>.3)?requestAnimationFrame(loop):0};
+    addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;x=e.clientX;y=e.clientY;g.classList.add('on');if(!raf)raf=requestAnimationFrame(loop)},{passive:true});
+    document.addEventListener('pointerleave',()=>g.classList.remove('on'));
+    addEventListener('blur',()=>g.classList.remove('on'));
+  })();
   /* ── slideshow-style scrolling (large screens, mouse/keyboard) ── */
-  const DURATION=900;               // 전환 시간(ms) — 값이 클수록 천천히
+  const DURATION=700;               // 전환 시간(ms) — 값이 클수록 천천히
   const big=matchMedia('(min-width:961px) and (min-height:640px)'), calm=matchMedia('(prefers-reduced-motion:reduce)');
   const root=document.documentElement;
-  let stops=[], animating=false, lockUntil=0, wheelAcc=0, wheelTimer;
+  let stops=[], animating=false, lockUntil=0;
   const maxY=()=>root.scrollHeight-innerHeight;
   const on=()=>root.classList.contains('slides');
+  let zone=null;                    // 비즈니스 섹션: 내부는 자유 스크롤
   function buildStops(){
-    const ys=[];
+    const ys=[], biz=document.getElementById('business');
+    const br=biz.getBoundingClientRect(), bTop=Math.round(br.top+scrollY), bEnd=Math.max(bTop,Math.round(br.bottom+scrollY-innerHeight));
+    zone={top:bTop,end:bEnd};
     document.querySelectorAll('[data-slide]').forEach(el=>ys.push(el.getBoundingClientRect().top+scrollY));
-    // 비즈니스 화면 중간 정지점: 아래 3개 카드가 화면 가운데 오도록
-    const t1=document.querySelector('#business .t1');
-    if(t1){const r=t1.getBoundingClientRect(),top=r.top+scrollY;ys.push(top-Math.max(96,(innerHeight-r.height)/2))}
-    ys.push(maxY());
+    ys.push(bEnd, maxY());
     let list=[...new Set(ys.map(y=>Math.round(Math.min(Math.max(y,0),maxY()))))].sort((a,b)=>a-b);
-    // 정지점 사이가 한 화면보다 길면 중간 정지점을 넣어 내용이 건너뛰어지지 않게
+    // 비즈니스 외의 구간이 한 화면보다 길면 중간 정지점 추가(내용 건너뜀 방지)
     const out=[];
-    list.forEach((y,i)=>{out.push(y);const n=list[i+1];if(n!==undefined){let c=y;while(n-c>innerHeight*1.05){c+=Math.round(innerHeight*.85);if(n-c>40)out.push(c)}}});
+    list.forEach((y,i)=>{out.push(y);const n=list[i+1];if(n!==undefined&&!(y>=bTop&&n<=bEnd)){let c=y;while(n-c>innerHeight*1.05){c+=Math.round(innerHeight*.85);if(n-c>40)out.push(c)}}});
     stops=out;
   }
+  // 부드럽게 따라가는 이동(비즈니스 내부 스크롤·휠 살짝 당김에 사용)
+  let freeTarget=null, freeRaf=0, animToken=0;
+  function glide(target){
+    animToken++; freeTarget=Math.max(0,Math.min(maxY(),target));
+    if(!freeRaf){const tick=()=>{const d=freeTarget-scrollY;
+      if(Math.abs(d)<.5){window.scrollTo(0,freeTarget);freeRaf=0;freeTarget=null;return}
+      window.scrollTo(0,scrollY+d*.18);freeRaf=requestAnimationFrame(tick)};freeRaf=requestAnimationFrame(tick)}
+  }
+  function stopGlide(){if(freeRaf){cancelAnimationFrame(freeRaf);freeRaf=0}freeTarget=null}
+  function freeScroll(delta){const cur=freeTarget??scrollY;glide(Math.max(zone.top,Math.min(zone.end,cur+delta)))}
+  const inZone=(y,dir)=>zone&&zone.end>zone.top&&y>=zone.top-2&&y<=zone.end+2&&!(dir>0&&y>=zone.end-2)&&!(dir<0&&y<=zone.top+2);
   function setMode(){
     root.classList.toggle('slides',big.matches&&!calm.matches);
     if(on()) buildStops();
   }
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-  function goTo(y){
+  function goTo(y,dur=DURATION,soft=false){
+    stopGlide();
     y=Math.max(0,Math.min(y,maxY()));
-    const from=scrollY,d=y-from; if(Math.abs(d)<2) return;
-    animating=true; const t0=performance.now();
-    const step=now=>{const k=Math.min(1,(now-t0)/DURATION);window.scrollTo(0,from+d*ease(k));
-      if(k<1) requestAnimationFrame(step); else {animating=false;lockUntil=performance.now()+350}};
+    const from=scrollY,d=y-from; if(Math.abs(d)<1) return;
+    const token=++animToken; if(!soft) animating=true;
+    const t0=performance.now();
+    const step=now=>{if(token!==animToken) return;
+      const k=Math.min(1,(now-t0)/dur);window.scrollTo(0,from+d*ease(k));
+      if(k<1) requestAnimationFrame(step); else if(!soft){animating=false;lockUntil=performance.now()+250}};
     requestAnimationFrame(step);
   }
-  function move(dir){
-    const y=scrollY;
-    if(dir>0){const n=stops.find(s=>s>y+4);if(n!==undefined)goTo(n)}
-    else{const p=[...stops].reverse().find(s=>s<y-4);if(p!==undefined)goTo(p)}
+  function nextFrom(y,dir){return dir>0?stops.find(s=>s>y+4):[...stops].reverse().find(s=>s<y-4)}
+  function move(dir,from=scrollY){const n=nextFrom(from,dir);if(n!==undefined)goTo(n)}
+  // 휠을 살짝 돌리면 조금 움직였다가(당김), 경계를 넘으면 다음 화면으로 전환, 멈추면 제자리로 복귀
+  let pull=0, pullBase=null, pullTimer;
+  const nearestStop=y=>stops.reduce((a,b)=>Math.abs(b-y)<Math.abs(a-y)?b:a,stops[0]??0);
+  function resetPull(){pull=0;pullBase=null;clearTimeout(pullTimer)}
+  function nudge(delta){
+    if(pullBase===null) pullBase=nearestStop(freeTarget??scrollY);
+    pull+=delta*.45;
+    const TH=80;  // 당김 경계(px): 휠 약 2칸
+    const dir=Math.sign(pull);
+    if(Math.abs(pull)>=TH&&nextFrom(pullBase,dir)!==undefined){const base=pullBase;resetPull();move(dir,base);return}
+    pull=Math.max(-TH*1.2,Math.min(TH*1.2,pull));
+    glide(pullBase+pull);
+    clearTimeout(pullTimer);
+    pullTimer=setTimeout(()=>{const b=pullBase;resetPull();goTo(b,420,true)},450);
   }
   addEventListener('wheel',e=>{
     if(!on()||e.ctrlKey) return;
     e.preventDefault();
-    if(animating||performance.now()<lockUntil){wheelAcc=0;return}
-    wheelAcc+=e.deltaY; clearTimeout(wheelTimer); wheelTimer=setTimeout(()=>wheelAcc=0,180);
-    if(Math.abs(wheelAcc)>=30){move(Math.sign(wheelAcc));wheelAcc=0}
+    if(animating||performance.now()<lockUntil) return;
+    const delta=e.deltaMode===1?e.deltaY*40:e.deltaY, dz=Math.sign(delta); if(!dz) return;
+    const cur=freeTarget??scrollY;
+    if(pullBase===null&&inZone(cur,dz)){freeScroll(delta);return}
+    nudge(delta);
   },{passive:false});
   addEventListener('keydown',e=>{
     if(!on()||e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
     const k=e.key, down=['ArrowDown','PageDown',' '].includes(k)&&!(k===' '&&e.shiftKey), up=['ArrowUp','PageUp'].includes(k)||(k===' '&&e.shiftKey);
-    if(down||up||k==='Home'||k==='End'){e.preventDefault(); if(animating) return;
-      if(k==='Home') goTo(0); else if(k==='End') goTo(maxY()); else move(down?1:-1)}
+    if(down||up||k==='Home'||k==='End'){e.preventDefault(); if(animating) return; resetPull();
+      if(k==='Home') goTo(0); else if(k==='End') goTo(maxY());
+      else{const dir=down?1:-1,cur=freeTarget??scrollY;
+        if(inZone(cur,dir)) freeScroll(dir*(k.startsWith('Arrow')?140:innerHeight*.8)); else move(dir)}}
   });
   document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     if(!on()) return; const id=a.getAttribute('href'); const t=id==='#'?root:document.querySelector(id); if(!t) return;
