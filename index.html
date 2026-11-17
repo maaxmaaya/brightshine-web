@@ -93,12 +93,16 @@
   .tile:hover::after{opacity:1}
   .t0{grid-column:span 6}.t1,.t3,.t4{grid-column:span 2}
   .dev-head{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:end}
-  .dev-grid{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .dev-grid{margin-top:36px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .sub{border:1px solid var(--line);border-radius:18px;padding:22px;background:rgba(255,255,255,.02);transition:border-color .2s}
   .sub:hover{border-color:rgba(255,194,26,.45)}
   .sub .mono{color:var(--sun)}
   .sub h4{font-size:18px;font-weight:700;letter-spacing:-.02em;margin:10px 0 6px}
   .sub p{margin-top:0;font-size:14.5px}
+  .sub h4 small{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--fg-3);letter-spacing:.04em;margin-left:6px;white-space:nowrap}
+  .sub .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .sub .links a{font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,194,26,.35);color:var(--sun);transition:background .15s}
+  .sub .links a:hover{background:rgba(255,194,26,.12)}
   .tile-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:56px}
   .ico{width:48px;height:48px;border-radius:14px;border:1px solid var(--line-2);display:grid;place-items:center;background:rgba(255,255,255,.03)}
   .ico svg{width:22px;height:22px;stroke:var(--sun);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -177,6 +181,8 @@
     .sub{display:grid;grid-template-columns:22px 1fr;column-gap:10px;align-items:baseline;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:14px 0;background:none}
     .sub:last-child{border-bottom:0;padding-bottom:0}
     .sub h4{margin:0 0 2px;font-size:16.5px}
+    .t0 .sub .links{grid-column:2;margin-top:10px;gap:6px}
+    .t0 .sub .links a{font-family:var(--sans);font-size:12.5px;padding:5px 11px}
     .t0 .sub p{grid-column:2;margin-top:2px;font-size:14px;line-height:1.55}
     .t0 .dev-head p{font-size:15px}
     .t0 .tile-top{margin-bottom:28px}
@@ -216,7 +222,7 @@
       <span class="badge"><b>AI-NATIVE</b> Creative &amp; Tech Studio</span>
       <h1>Ideas,<br><span class="out">made to</span> <span class="grad">shine.</span></h1>
       <div class="hero-sub">
-        <p>브라이트샤인은 <strong>마케팅·소프트웨어·지식재산·메디컬</strong>을 하나의 팀에서 다룹니다. 좋은 아이디어가 시장에서 통하는 사업이 될 때까지, 기획부터 실행까지 함께합니다.</p>
+        <p>브라이트샤인은 <strong>마케팅·소프트웨어·지식재산·메디컬 비즈니스</strong>를 다룹니다. 좋은 아이디어가 시장에서 통하는 사업이 될 때까지, 기획부터 실행까지 함께합니다.</p>
         <div class="cta">
           <a href="#business" class="btn btn-ghost">사업분야</a>
           <a href="#contact" class="btn btn-sun">함께 시작하기 <span class="arrow">→</span></a>
@@ -227,8 +233,8 @@
 
   <div class="marquee" aria-hidden="true">
     <div class="track">
-      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span>
-      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span>
+      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Private AI</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span><span>MSO Advisory</span>
+      <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Private AI</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span><span>MSO Advisory</span>
     </div>
   </div>
 
@@ -247,14 +253,14 @@
         <article class="tile t0 rv">
           <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div><span class="mono">01 / Software</span></div>
           <div class="dev-head">
-            <div><h3>프로그램 개발</h3><div class="en">Software · Game · EdTech</div></div>
-            <p style="margin-top:0">업무 현장에서 바로 쓰는 관리 프로그램부터 게임, 교육용 콘텐츠까지. AI 네이티브 개발 방식으로 기획에서 배포·운영까지 빠르게 만듭니다.</p>
+            <div><h3>프로그램 개발</h3><div class="en">Software · Private AI · Game · EdTech</div></div>
+            <p style="margin-top:0">업무 현장에서 바로 쓰는 관리 프로그램부터 Private AI, 게임·교육 콘텐츠까지. AI 네이티브 개발 방식으로 기획에서 배포·운영까지 빠르게 만듭니다.</p>
           </div>
           <div class="dev-grid">
-            <div class="sub"><span class="mono">A</span><h4>병·의원 인사관리</h4><p>근무일정, 근태, 급여 업무를 한곳에서 관리하는 병·의원 맞춤형 프로그램.</p></div>
-            <div class="sub"><span class="mono">B</span><h4>게임 개발</h4><p>웹·모바일 환경의 캐주얼 게임과 인터랙티브 콘텐츠 개발.</p></div>
-            <div class="sub"><span class="mono">C</span><h4>교육용 프로그램</h4><p>놀이처럼 배우는 학습 앱과 교육기관용 콘텐츠·도구 개발.</p></div>
-            <div class="sub"><span class="mono">D</span><h4>업무용 웹앱·홈페이지</h4><p>업무 자동화 도구, 사내 관리 시스템, 홈페이지·랜딩페이지 제작.</p></div>
+            <div class="sub"><span class="mono">A</span><h4>병·의원 인사관리 <small>HR 근무일정표</small></h4><p>팀별 근무표, 연차·대휴 관리, 근태 엑셀 출력을 한곳에서. 담당자는 편집하고 직원은 확인만 하는 역할별 권한을 지원합니다.</p><div class="links"><a href="https://hr.brightshine.kr" target="_blank" rel="noopener">hr.brightshine.kr ↗</a><a href="https://hr.brightshine.kr/?demo&amp;tour=1" target="_blank" rel="noopener">데모 체험 ↗</a></div></div>
+            <div class="sub"><span class="mono">B</span><h4>게임·교육용 프로그램</h4><p>웹·모바일 캐주얼 게임과 놀이처럼 배우는 학습 앱, 교육기관용 콘텐츠·도구를 개발합니다.</p><div class="links"><a href="https://bb.brightshine.kr" target="_blank" rel="noopener">bb.brightshine.kr ↗</a></div></div>
+            <div class="sub"><span class="mono">C</span><h4>Private AI 서비스 <small>Garigo</small></h4><p>문서 속 개인정보를 자동으로 찾아 가린 뒤 AI에 전달합니다. 법률문서처럼 보안이 중요한 업무에도 AI를 안심하고 쓸 수 있습니다.</p><div class="links"><a href="https://garigo.kr" target="_blank" rel="noopener">garigo.kr ↗</a></div></div>
+            <div class="sub"><span class="mono">D</span><h4>업무용 웹앱·홈페이지</h4><p>업무 자동화 도구, 사내 관리 시스템, 홈페이지 제작. 브랜드 로고 자동 제작 프로그램 Rainbow BrandLab도 개발했습니다.</p></div>
           </div>
         </article>
 
@@ -278,8 +284,8 @@
           <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.3-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.3 6c-2.3 4.6-9.3 9-9.3 9z"/></svg></div><span class="mono">04 / Medical</span></div>
           <h3>메디컬 비즈니스</h3>
           <div class="en">Medical Business</div>
-          <p>병·의원을 위한 메디컬 비즈니스 파트너. 의료기기 공급부터 장비 도입·교체까지 합리적인 선택을 돕습니다.</p>
-          <div class="tags"><span>의료기기 도소매</span><span>중고 장비 매입·판매</span><span>도입 상담</span></div>
+          <p>병·의원을 위한 메디컬 비즈니스 파트너. 의료기기 공급과 장비 도입·교체는 물론, MSO(병원경영지원회사) 설립·운영 자문까지 함께합니다.</p>
+          <div class="tags"><span>의료기기 도소매</span><span>중고 장비 매입·판매</span><span>도입 상담</span><span>MSO 자문</span></div>
         </article>
       </div>
     </div>
@@ -311,7 +317,7 @@
     <div class="wrap">
       <div class="head rv">
         <span class="mono">( 03 ) — Process</span>
-        <div><h2>작게 시작해서,<br><em>빠르게 키웁니다.</em></h2></div>
+        <div><h2>빠르게 시작하고,<br><em>함께 성장합니다.</em></h2></div>
       </div>
       <div class="steps rv">
         <div class="step"><span class="mono">Step 01</span><h4>Discover</h4><p>현재 상황과 목표를 듣고, 가장 먼저 해야 할 일을 정리합니다.</p></div>
