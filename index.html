@@ -152,16 +152,13 @@
   .big-word{font-family:var(--grot);font-weight:700;letter-spacing:-.06em;font-size:clamp(56px,14.5vw,200px);line-height:1;text-align:center;margin-top:48px;white-space:nowrap;overflow:hidden;
     background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
 
-  #business{padding-bottom:14px}
-  #business-more{padding-top:0}
   /* slideshow-style scrolling (large screens) */
   .dots{display:none}
   @media (min-width:961px) and (min-height:640px){
-    html.snap{scroll-snap-type:y mandatory}
-    [data-slide]{scroll-snap-align:start;scroll-snap-stop:always}
-    section[data-slide]{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px 0 70px}
-    section[data-slide]{padding:96px 0 40px}
-    #business-more{padding-top:96px}
+    html.slides{scroll-behavior:auto}
+    section[data-slide]{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 40px}
+    #business{display:block}
+    #business .t1,#business .t3,#business .t4{margin-top:0}
     #business .head{margin-bottom:28px}
     #business .head h2{font-size:clamp(30px,3.4vw,44px)}
     #business .head p{margin-top:10px}
@@ -176,7 +173,7 @@
     .sub .links{margin-top:10px}
     #contact{justify-content:flex-start}
     #contact > .wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
-    footer{padding:32px 0 0;scroll-snap-align:end}
+    footer{padding:32px 0 0}
     footer .foot{padding-top:24px}
     .big-word{margin-top:16px;font-size:min(11vw,150px)}
     #contact .cta-box{padding:64px 64px 56px}
@@ -187,7 +184,6 @@
     .dots a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fg-2);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
     .dots a:hover span,.dots a.on span{opacity:1}
   }
-  @media (prefers-reduced-motion:reduce){html{scroll-snap-type:none !important}}
 
   .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
   .rv.on{opacity:1;transform:none}
@@ -313,13 +309,6 @@
           </div>
         </article>
 
-      </div>
-    </div>
-  </section>
-
-  <section id="business-more" data-slide>
-    <div class="wrap">
-      <div class="bento">
         <article class="tile t1 rv">
           <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div><span class="mono">02 / Marketing</span></div>
           <h3>마케팅·브랜딩</h3>
@@ -354,7 +343,7 @@
         <span class="mono">( 02 ) — Why us</span>
         <div>
           <h2>스타트업의 속도,<br><em>전문가의 깊이.</em></h2>
-          <p>기술을 이해하는 사람이 브랜드를 만들고, 지식재산을 다뤄 본 사람이 사업화를 설계합니다.</p>
+          <p>기술을 이해하는 사람이 브랜드를 만들고, 지식재산 전문가가 사업화를 설계합니다.</p>
         </div>
       </div>
 
@@ -420,18 +409,66 @@
   const setMenu=o=>{menu.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.textContent=o?'✕':'☰'};
   mb.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-  const slides=[...document.querySelectorAll('[data-slide]')];
+  /* ── slideshow-style scrolling (large screens, mouse/keyboard) ── */
+  const DURATION=900;               // 전환 시간(ms) — 값이 클수록 천천히
   const big=matchMedia('(min-width:961px) and (min-height:640px)'), calm=matchMedia('(prefers-reduced-motion:reduce)');
-  function fitSnap(){
-    const root=document.documentElement; root.classList.remove('snap');
-    if(!big.matches||calm.matches) return;
-    const h=innerHeight+24;
-    if(slides.every(el=>el.offsetHeight<=h||el.id==='contact')) root.classList.add('snap');
+  const root=document.documentElement;
+  let stops=[], animating=false, lockUntil=0, wheelAcc=0, wheelTimer;
+  const maxY=()=>root.scrollHeight-innerHeight;
+  const on=()=>root.classList.contains('slides');
+  function buildStops(){
+    const ys=[];
+    document.querySelectorAll('[data-slide]').forEach(el=>ys.push(el.getBoundingClientRect().top+scrollY));
+    // 비즈니스 화면 중간 정지점: 아래 3개 카드가 화면 가운데 오도록
+    const t1=document.querySelector('#business .t1');
+    if(t1){const r=t1.getBoundingClientRect(),top=r.top+scrollY;ys.push(top-Math.max(96,(innerHeight-r.height)/2))}
+    ys.push(maxY());
+    let list=[...new Set(ys.map(y=>Math.round(Math.min(Math.max(y,0),maxY()))))].sort((a,b)=>a-b);
+    // 정지점 사이가 한 화면보다 길면 중간 정지점을 넣어 내용이 건너뛰어지지 않게
+    const out=[];
+    list.forEach((y,i)=>{out.push(y);const n=list[i+1];if(n!==undefined){let c=y;while(n-c>innerHeight*1.05){c+=Math.round(innerHeight*.85);if(n-c>40)out.push(c)}}});
+    stops=out;
   }
-  addEventListener('load',fitSnap); addEventListener('resize',()=>{clearTimeout(fitSnap.t);fitSnap.t=setTimeout(fitSnap,150)});
-  if(document.fonts) document.fonts.ready.then(fitSnap);
+  function setMode(){
+    root.classList.toggle('slides',big.matches&&!calm.matches);
+    if(on()) buildStops();
+  }
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  function goTo(y){
+    y=Math.max(0,Math.min(y,maxY()));
+    const from=scrollY,d=y-from; if(Math.abs(d)<2) return;
+    animating=true; const t0=performance.now();
+    const step=now=>{const k=Math.min(1,(now-t0)/DURATION);window.scrollTo(0,from+d*ease(k));
+      if(k<1) requestAnimationFrame(step); else {animating=false;lockUntil=performance.now()+350}};
+    requestAnimationFrame(step);
+  }
+  function move(dir){
+    const y=scrollY;
+    if(dir>0){const n=stops.find(s=>s>y+4);if(n!==undefined)goTo(n)}
+    else{const p=[...stops].reverse().find(s=>s<y-4);if(p!==undefined)goTo(p)}
+  }
+  addEventListener('wheel',e=>{
+    if(!on()||e.ctrlKey) return;
+    e.preventDefault();
+    if(animating||performance.now()<lockUntil){wheelAcc=0;return}
+    wheelAcc+=e.deltaY; clearTimeout(wheelTimer); wheelTimer=setTimeout(()=>wheelAcc=0,180);
+    if(Math.abs(wheelAcc)>=30){move(Math.sign(wheelAcc));wheelAcc=0}
+  },{passive:false});
+  addEventListener('keydown',e=>{
+    if(!on()||e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    const k=e.key, down=['ArrowDown','PageDown',' '].includes(k)&&!(k===' '&&e.shiftKey), up=['ArrowUp','PageUp'].includes(k)||(k===' '&&e.shiftKey);
+    if(down||up||k==='Home'||k==='End'){e.preventDefault(); if(animating) return;
+      if(k==='Home') goTo(0); else if(k==='End') goTo(maxY()); else move(down?1:-1)}
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+    if(!on()) return; const id=a.getAttribute('href'); const t=id==='#'?root:document.querySelector(id); if(!t) return;
+    e.preventDefault(); goTo(id==='#'?0:t.getBoundingClientRect().top+scrollY);
+  }));
+  setMode(); big.addEventListener('change',setMode); calm.addEventListener('change',setMode);
+  addEventListener('load',setMode); addEventListener('resize',()=>{clearTimeout(setMode.t);setMode.t=setTimeout(setMode,150)});
+  if(document.fonts) document.fonts.ready.then(setMode);
   const dots=[...document.querySelectorAll('.dots a')];
-  const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const id=e.target.id==='business-more'?'business':e.target.id;dots.forEach(d=>d.classList.toggle('on',d.getAttribute('href')==='#'+id))}}),{rootMargin:'-45% 0px -45% 0px'});
+  const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;dots.forEach(d=>d.classList.toggle('on',d.getAttribute('href')==='#'+id))}}),{rootMargin:'-45% 0px -45% 0px'});
   document.querySelectorAll('[data-slide]').forEach(el=>so.observe(el));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.1});
   document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
