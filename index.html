@@ -99,6 +99,10 @@
   .dev-grid{margin-top:36px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .sub{border:1px solid var(--line);border-radius:18px;padding:22px;background:rgba(255,255,255,.02);transition:border-color .2s}
   .sub:hover{border-color:rgba(255,194,26,.45)}
+  .sub{display:flex;flex-direction:column}
+  .sub h4{white-space:nowrap}
+  .sub p{flex:1}
+  .sub .links{margin-top:auto;padding-top:14px}
   .sub .mono{color:var(--sun)}
   .sub h4{font-size:18px;font-weight:700;letter-spacing:-.02em;margin:10px 0 6px}
   .sub p{margin-top:0;font-size:14.5px}
@@ -175,7 +179,7 @@
     .sub{padding:16px 20px}
     .sub h4{margin:6px 0 4px;font-size:17px}
     .sub p{font-size:14px;line-height:1.55}
-    .sub .links{margin-top:10px}
+    .sub .links{margin-top:auto;padding-top:12px}
     #contact{justify-content:flex-start}
     #contact > .wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
     footer{padding:32px 0 0}
