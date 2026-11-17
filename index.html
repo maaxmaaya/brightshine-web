@@ -24,7 +24,7 @@
     --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:96px}
+  html{scroll-behavior:smooth}
   body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.65;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   ::selection{background:var(--sun);color:#000}
@@ -54,7 +54,10 @@
   .menu-btn{display:none;background:none;border:0;color:var(--fg);font-size:22px;cursor:pointer;width:44px;height:44px}
 
   /* HERO */
-  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
+  .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding:150px 0 0;overflow:hidden}
+  .hero > .wrap{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:72px}
+  .hero .marquee{position:relative}
+  .hero .badge{align-self:flex-start}
   .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 75%)}
   .sun{position:absolute;width:720px;height:720px;right:-180px;top:-160px;border-radius:50%;
     background:radial-gradient(circle at 50% 50%,rgba(255,194,26,.55),rgba(255,138,0,.22) 35%,transparent 65%);filter:blur(30px);animation:pulse 8s ease-in-out infinite}
@@ -149,6 +152,43 @@
   .big-word{font-family:var(--grot);font-weight:700;letter-spacing:-.06em;font-size:clamp(56px,14.5vw,200px);line-height:1;text-align:center;margin-top:48px;white-space:nowrap;overflow:hidden;
     background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
 
+  #business{padding-bottom:14px}
+  #business-more{padding-top:0}
+  /* slideshow-style scrolling (large screens) */
+  .dots{display:none}
+  @media (min-width:961px) and (min-height:640px){
+    html.snap{scroll-snap-type:y mandatory}
+    [data-slide]{scroll-snap-align:start;scroll-snap-stop:always}
+    section[data-slide]{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px 0 70px}
+    section[data-slide]{padding:96px 0 40px}
+    #business-more{padding-top:96px}
+    #business .head{margin-bottom:28px}
+    #business .head h2{font-size:clamp(30px,3.4vw,44px)}
+    #business .head p{margin-top:10px}
+    .t0{padding:28px 32px}
+    .t0 .tile-top{margin-bottom:14px}
+    .t0 h3{font-size:24px}
+    .dev-grid{margin-top:22px;gap:10px}
+    @media (min-width:1200px){.dev-grid{grid-template-columns:repeat(4,1fr)}}
+    .sub{padding:16px 20px}
+    .sub h4{margin:6px 0 4px;font-size:17px}
+    .sub p{font-size:14px;line-height:1.55}
+    .sub .links{margin-top:10px}
+    #contact{justify-content:flex-start}
+    #contact > .wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+    footer{padding:32px 0 0;scroll-snap-align:end}
+    footer .foot{padding-top:24px}
+    .big-word{margin-top:16px;font-size:min(11vw,150px)}
+    #contact .cta-box{padding:64px 64px 56px}
+    #contact .contact-grid{margin-top:40px}
+    .dots{display:flex;flex-direction:column;gap:14px;position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:70}
+    .dots a{position:relative;width:10px;height:10px;border-radius:50%;border:1px solid var(--fg-3);transition:all .25s}
+    .dots a.on{background:var(--sun);border-color:var(--sun);box-shadow:0 0 12px rgba(255,194,26,.6);transform:scale(1.2)}
+    .dots a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fg-2);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+    .dots a:hover span,.dots a.on span{opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-snap-type:none !important}}
+
   .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
   .rv.on{opacity:1;transform:none}
 
@@ -169,7 +209,8 @@
     .steps{grid-template-columns:1fr 1fr;row-gap:48px}
     .cta-box{padding:56px 28px}
     section{padding:88px 0}
-    .hero{min-height:auto;padding:140px 0 80px}
+    .hero{min-height:auto;padding:140px 0 0}
+    .hero > .wrap{padding-bottom:64px}
   }
   @media (max-width:560px){
     .steps{border-top:0;border-left:1px solid var(--line-2);padding-left:24px;row-gap:36px}
@@ -213,9 +254,17 @@
   </div>
 </header>
 
+<nav class="dots" aria-label="섹션 이동">
+  <a href="#home" class="on"><span>HOME</span></a>
+  <a href="#business"><span>BUSINESS</span></a>
+  <a href="#expertise"><span>EXPERTISE</span></a>
+  <a href="#process"><span>PROCESS</span></a>
+  <a href="#contact"><span>CONTACT</span></a>
+</nav>
+
 <main>
   <!-- HERO -->
-  <div class="hero">
+  <div class="hero" id="home" data-slide>
     <div class="grid-bg"></div>
     <div class="sun"></div>
     <div class="wrap">
@@ -229,17 +278,17 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="marquee" aria-hidden="true">
+    <div class="marquee" aria-hidden="true">
     <div class="track">
       <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Private AI</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span><span>MSO Advisory</span>
       <span>Brand Identity</span><span>AI Logo Design</span><span>Web &amp; App Development</span><span>Private AI</span><span>Game Development</span><span>EdTech</span><span>Clinic HR Software</span><span>Patent Commercialization</span><span>Medical Business</span><span>MSO Advisory</span>
     </div>
   </div>
+  </div>
+
 
   <!-- BUSINESS -->
-  <section id="business">
+  <section id="business" data-slide>
     <div class="wrap">
       <div class="head rv">
         <span class="mono">( 01 ) — What we do</span>
@@ -264,6 +313,13 @@
           </div>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+  <section id="business-more" data-slide>
+    <div class="wrap">
+      <div class="bento">
         <article class="tile t1 rv">
           <div class="tile-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div><span class="mono">02 / Marketing</span></div>
           <h3>마케팅·브랜딩</h3>
@@ -292,7 +348,7 @@
   </section>
 
   <!-- EXPERTISE -->
-  <section id="expertise">
+  <section id="expertise" data-slide>
     <div class="wrap">
       <div class="head rv">
         <span class="mono">( 02 ) — Why us</span>
@@ -313,7 +369,7 @@
   </section>
 
   <!-- PROCESS -->
-  <section id="process">
+  <section id="process" data-slide>
     <div class="wrap">
       <div class="head rv">
         <span class="mono">( 03 ) — Process</span>
@@ -329,7 +385,7 @@
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" style="padding-top:40px;padding-bottom:0">
+  <section id="contact" data-slide style="padding-bottom:0">
     <div class="wrap">
       <div class="cta-box rv">
         <span class="mono">( 04 ) — Contact</span>
@@ -341,10 +397,7 @@
         </div>
       </div>
     </div>
-  </section>
-</main>
-
-<footer>
+    <footer>
   <div class="wrap">
     <div class="foot">
       <div>
@@ -358,12 +411,28 @@
     <div class="big-word" aria-hidden="true">brightshine</div>
   </div>
 </footer>
+  </section>
+</main>
+
 
 <script>
   const menu=document.getElementById('menu'),mb=document.getElementById('menuBtn');
   const setMenu=o=>{menu.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.textContent=o?'✕':'☰'};
   mb.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  const slides=[...document.querySelectorAll('[data-slide]')];
+  const big=matchMedia('(min-width:961px) and (min-height:640px)'), calm=matchMedia('(prefers-reduced-motion:reduce)');
+  function fitSnap(){
+    const root=document.documentElement; root.classList.remove('snap');
+    if(!big.matches||calm.matches) return;
+    const h=innerHeight+24;
+    if(slides.every(el=>el.offsetHeight<=h||el.id==='contact')) root.classList.add('snap');
+  }
+  addEventListener('load',fitSnap); addEventListener('resize',()=>{clearTimeout(fitSnap.t);fitSnap.t=setTimeout(fitSnap,150)});
+  if(document.fonts) document.fonts.ready.then(fitSnap);
+  const dots=[...document.querySelectorAll('.dots a')];
+  const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const id=e.target.id==='business-more'?'business':e.target.id;dots.forEach(d=>d.classList.toggle('on',d.getAttribute('href')==='#'+id))}}),{rootMargin:'-45% 0px -45% 0px'});
+  document.querySelectorAll('[data-slide]').forEach(el=>so.observe(el));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.1});
   document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
   document.querySelectorAll('.tile').forEach(t=>t.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect();t.style.setProperty('--mx',(e.clientX-r.left)+'px');t.style.setProperty('--my',(e.clientY-r.top)+'px')}));
