@@ -519,10 +519,16 @@
     try{
       const r=await fetch('https://formsubmit.co/ajax/'+INQUIRY_TO,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
       const j=await r.json().catch(()=>({}));
-      if(!r.ok||String(j.success)==='false') throw new Error(j.message||r.status);
+      const m=String(j.message||'');
+      if(/activat/i.test(m)){   // 첫 전송: FormSubmit이 받는 메일함으로 활성화 메일을 보냄
+        msg.className='f-msg'; msg.textContent='폼 활성화가 필요합니다. '+INQUIRY_TO+' 메일함(스팸함 포함)의 FormSubmit "Activate Form" 메일을 확인해 주세요.';
+        console.warn('[inquiry]',m); return;
+      }
+      if(!r.ok||String(j.success)==='false') throw new Error(m||('HTTP '+r.status));
       msg.className='f-msg ok'; msg.textContent='문의가 접수되었습니다. 빠르게 연락드리겠습니다.'; form.reset();
     }catch(err){
-      msg.className='f-msg err'; msg.textContent='전송에 실패했습니다. '+INQUIRY_TO+' 로 직접 메일 주세요.';
+      console.error('[inquiry]',err);
+      msg.className='f-msg err'; msg.textContent='전송에 실패했습니다. '+INQUIRY_TO+' 로 직접 메일 주세요.'+(err&&err.message?' ('+err.message+')':'');
     }finally{btn.disabled=false}
   });
 
